@@ -485,3 +485,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,openframeworks+visualstudio,visualstudiocode
+/Rocky/Migrations/20220209201902_addCategoryToDatabase.cs
+/Rocky/Migrations/20220209201902_addCategoryToDatabase.Designer.cs
