@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Rocky.Models.Category>
+﻿@model IEnumerable<Rocky.Models.Category>;
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -6,8 +6,10 @@
             <h2 class="text-primary">Category list</h2>
         </div>
 
-        <div class="col-6">
-            Create new Category
+        <div class="col-6 text-right">
+            <a class="btn-primary btn" asp-controller="Category" asp-action="Create">
+                Create new Category
+            </a> 
         </div>        
     </div>
     <br />

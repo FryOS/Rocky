@@ -1,7 +1,11 @@
-﻿
-@{
-    ViewData["Title"] = "Create";
-}
+﻿@model Rocky.Models.Category;
 
-<h1>Create</h1>
+@*форма с пост методом который будет использовать экшен Create из контролера *@
+<form method="post" asp-action="Create">
+    <div class="form-group row">
+        <h2 class="text-info p1-3">
+            Add Category
+        </h2>
+    </div>
 
+</form>
