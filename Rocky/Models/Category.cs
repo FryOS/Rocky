@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rocky.Models
 {
@@ -6,7 +7,9 @@ namespace Rocky.Models
     {
         [Key]
         public int CategoryId { get; set; }
+        [DisplayName("Category Name")]
         public string CategoryName { get; set; }
+        [DisplayName("Display Order")]
         public int DisplayOrder { get; set; }
     }
 }
