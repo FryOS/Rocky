@@ -20,5 +20,14 @@ namespace Rocky.Controllers
 ;
             return View(catgories);
         }
+
+
+        //Get - Create
+        public IActionResult Create()
+        {
+            
+            
+            return View();
+        }
     }
 }
