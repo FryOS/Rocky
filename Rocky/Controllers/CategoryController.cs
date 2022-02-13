@@ -57,5 +57,21 @@ namespace Rocky.Controllers
 
             return View(category);
         }
+
+        //Post - Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category category)
+        {
+            if (ModelState.IsValid) // валидация на стороне сервера
+            {
+                _db.Category.Update(category);
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View(category);
+
+        }
     }
 }
