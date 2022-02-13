@@ -24,10 +24,19 @@ namespace Rocky.Controllers
 
         //Get - Create
         public IActionResult Create()
-        {
-            
-            
+        {           
             return View();
+        }
+
+        //Post - Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category category)
+        {
+            _db.Category.Add(category);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
