@@ -2,6 +2,7 @@
 using Rocky.Data;
 using Rocky.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rocky.Controllers
 {
@@ -11,20 +12,20 @@ namespace Rocky.Controllers
 
         public CategoryController(AppDbContext db)
         {
-            _db = db;   
+            _db = db;
         }
 
         public IActionResult Index()
         {
             IEnumerable<Category> catgories = _db.Category;
-;
+            ;
             return View(catgories);
         }
 
 
         //Get - Create
         public IActionResult Create()
-        {           
+        {
             return View();
         }
 
@@ -41,19 +42,19 @@ namespace Rocky.Controllers
                 return RedirectToAction("Index");
             }
             return View(category);
-           
+
         }
 
         //Get - EDIT
         public IActionResult Edit(int? id)
         {
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
             var category = _db.Category.Find(id);
-            if(category == null)
-                return NotFound();  
+            if (category == null)
+                return NotFound();
 
             return View(category);
         }
@@ -73,5 +74,37 @@ namespace Rocky.Controllers
             return View(category);
 
         }
+        //delete
+
+        //Get - DELETE
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var category = _db.Category.Find(id);
+            if (category == null)
+                return NotFound();
+
+            return View(category);
+        }
+
+        //Post - Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var category = _db.Category.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+                _db.Category.Remove(category);
+                _db.SaveChanges();
+                return RedirectToAction("Index");    
+        }
+
+
     }
 }

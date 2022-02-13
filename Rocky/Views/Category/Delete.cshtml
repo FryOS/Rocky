@@ -1,0 +1,60 @@
+﻿@model Rocky.Models.Category;
+
+@*форма с пост методом который будет использовать экшен Create из контролера *@
+<form method="post" asp-action="DeletePost">
+    <input asp-for="CategoryId" hidden />
+    <div class="border p-3">
+       
+        <div class="form-group row">
+        <h2 class="text-info p1-3">
+            Delete Category
+        </h2>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                    <label asp-for="CategoryName"></label>
+                    </div>
+                    <div class="col-8">
+                    <input asp-for="CategoryName" disabled class="form-control" />
+                    </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="DisplayOrder"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="DisplayOrder" disabled class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4 row">
+                     
+                    <div class="col">
+                        <input type="submit" class="btn-danger btn w-100" value="Delete" name="Delete" />
+                     </div>
+                
+                    <div class="col">
+                        <a class="btn-success btn w-100"  asp-action="Index">
+                        Back to Categories
+                        </a>                
+                    </div> 
+                </div>
+        </div>
+        <div class="col-4">
+            @*empty*@
+        </div>
+    </div>
+  </div>
+</div>
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" /> //Валидация на стороне клиента
+    }
+}
