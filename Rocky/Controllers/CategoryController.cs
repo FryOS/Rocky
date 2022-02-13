@@ -91,7 +91,7 @@ namespace Rocky.Controllers
         }
 
         //Post - Delete
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
