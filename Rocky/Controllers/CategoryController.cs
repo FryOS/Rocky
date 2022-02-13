@@ -33,10 +33,15 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
-            _db.Category.Add(category);
-            _db.SaveChanges();
+            if (ModelState.IsValid) // валидация на стороне сервера
+            {
+                _db.Category.Add(category);
+                _db.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return View(category);
+           
         }
     }
 }
