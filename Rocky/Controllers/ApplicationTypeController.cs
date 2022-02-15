@@ -2,26 +2,24 @@
 using Rocky.Data;
 using Rocky.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Rocky.Controllers
 {
-    public class CategoryController : Controller
+    public class ApplicationTypeController : Controller
     {
         private readonly AppDbContext _db;
 
-        public CategoryController(AppDbContext db)
+        public ApplicationTypeController(AppDbContext db)
         {
             _db = db;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> catgories = _db.Category;
-            
+            IEnumerable<ApplicationType> catgories = _db.ApplicationType;
+
             return View(catgories);
         }
-
 
         //Get - Create
         public IActionResult Create()
@@ -32,16 +30,16 @@ namespace Rocky.Controllers
         //Post - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public IActionResult Create(ApplicationType applicationType)
         {
             if (ModelState.IsValid) // валидация на стороне сервера
             {
-                _db.Category.Add(category);
+                _db.ApplicationType.Add(applicationType);
                 _db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(applicationType);
 
         }
 
@@ -52,26 +50,26 @@ namespace Rocky.Controllers
             {
                 return NotFound();
             }
-            var category = _db.Category.Find(id);
-            if (category == null)
+            var app = _db.ApplicationType.Find(id);
+            if (app == null)
                 return NotFound();
 
-            return View(category);
+            return View(app);
         }
 
         //Post - Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
+        public IActionResult Edit(ApplicationType applicationType)
         {
             if (ModelState.IsValid) // валидация на стороне сервера
             {
-                _db.Category.Update(category);
+                _db.ApplicationType.Update(applicationType);
                 _db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(applicationType);
 
         }
         //delete
@@ -83,11 +81,11 @@ namespace Rocky.Controllers
             {
                 return NotFound();
             }
-            var category = _db.Category.Find(id);
-            if (category == null)
+            var app = _db.ApplicationType.Find(id);
+            if (app == null)
                 return NotFound();
 
-            return View(category);
+            return View(app);
         }
 
         //Post - Delete
@@ -95,16 +93,14 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var category = _db.Category.Find(id);
-            if (category == null)
+            var app = _db.ApplicationType.Find(id);
+            if (app == null)
             {
                 return NotFound();
             }
-                _db.Category.Remove(category);
-                _db.SaveChanges();
-                return RedirectToAction("Index");    
+            _db.ApplicationType.Remove(app);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
-
-
     }
 }
