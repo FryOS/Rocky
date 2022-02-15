@@ -9,8 +9,8 @@ using Rocky.Data;
 namespace Rocky.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220215165052_addAppTypeToDatabase")]
-    partial class addAppTypeToDatabase
+    [Migration("20220215180703_Id")]
+    partial class Id
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

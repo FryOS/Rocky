@@ -6,10 +6,10 @@ namespace Rocky.Models
     public class Category
     {
         [Key]
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
         [DisplayName("Category Name")]
         [Required(ErrorMessage = "Заполните имя категори")]
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
         [DisplayName("Display Order")]
         [Required(ErrorMessage = "Заполните порядок категори")] //Обязательное
         [Range(1, int.MaxValue, ErrorMessage = "Порядок категорий должен быть больше нуля")]

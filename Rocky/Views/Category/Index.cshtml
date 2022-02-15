@@ -27,14 +27,14 @@
                 @foreach(var obj in Model)
                 {
                     <tr>
-                        <td width="50%">@obj.CategoryName</td>
+                        <td width="50%">@obj.Name</td>
                         <td width="30%">@obj.DisplayOrder</td>
                         <td>
                             <div role="group" class="w-75 btn-group">
-                                <a class="btn-primary btn mx-2" asp-route-id="@obj.CategoryId" asp-controller="Category" asp-action="Edit">
+                                <a class="btn-primary btn mx-2" asp-route-id="@obj.Id" asp-controller="Category" asp-action="Edit">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a class="btn-danger btn mx-2" asp-route-id="@obj.CategoryId" asp-controller="Category" asp-action="Delete">
+                                <a class="btn-danger btn mx-2" asp-route-id="@obj.Id" asp-controller="Category" asp-action="Delete">
                                     <i class="fa-solid fa-trash"></i>
                                 </a> 
                             </div>

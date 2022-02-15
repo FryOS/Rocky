@@ -6,11 +6,11 @@ namespace Rocky.Models
     public class ApplicationType
     {
         [Key]
-        public int AppId { get; set; }
+        public int Id { get; set; }
         
         [DisplayName("Application Type")]
         [Required(ErrorMessage = "Заполните имя Application")]
-        public string ApplicationTypeName { get; set; }
+        public string Name { get; set; }
       
     }
 }

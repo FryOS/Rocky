@@ -10,7 +10,7 @@ namespace Rocky.Migrations
                 name: "Shelf");
 
             migrationBuilder.AlterColumn<string>(
-                name: "CategoryName",
+                name: "Name",
                 table: "Category",
                 type: "nvarchar(max)",
                 nullable: false,
@@ -39,7 +39,7 @@ namespace Rocky.Migrations
                 name: "ApplicationType");
 
             migrationBuilder.AlterColumn<string>(
-                name: "CategoryName",
+                name: "Name",
                 table: "Category",
                 type: "nvarchar(max)",
                 nullable: true,
