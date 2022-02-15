@@ -29,57 +29,31 @@ namespace Rocky.Controllers
         }
 
 
-        //Get - Create
+        //Get - Upsert
         public IActionResult Create()
         {
             return View();
         }
 
-        //Post - Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        //Get - Upsert
+        public IActionResult Upsert(int? id) //если редактируем то передаем id
         {
-            if (ModelState.IsValid) // валидация на стороне сервера
+            Product product = new Product();
+            if (id == null)
             {
-                _db.Category.Add(category);
-                _db.SaveChanges();
-
-                return RedirectToAction("Index");
+                return View(product);
             }
-            return View(category);
-
+            else
+            {
+                product = _db.Product.Find(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                return View(product);
+            }
         }
 
-        //Get - EDIT
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var category = _db.Category.Find(id);
-            if (category == null)
-                return NotFound();
-
-            return View(category);
-        }
-
-        //Post - Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
-        {
-            if (ModelState.IsValid) // валидация на стороне сервера
-            {
-                _db.Category.Update(category);
-                _db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            return View(category);
-
-        }
         //delete
 
         //Get - DELETE
