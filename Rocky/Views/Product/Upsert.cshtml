@@ -1,4 +1,4 @@
-﻿@model Rocky.Models.Product;
+﻿@model Rocky.Models.ViewModels.ProductVM;
 
 @{
     var title = "Create Product";
@@ -6,109 +6,124 @@
 
 @*форма с пост методом который будет использовать экшен Create из контролера, enctype для изображений *@
 <form method="post" enctype="multipart/form-data">
-    @if(Model.Id != 0)
+    @if (Model.Product.Id != 0)
     {
         title = "Edit product";
-        <input asp-for="Id" hidden /> 
+        <input asp-for="Product.Id" hidden />
     }
-        
+
     <div class="border p-3">
-       
+
         <div class="form-group row">
-        <h2 class="text-info p1-3">@title</h2>
+            <h2 class="text-info p1-3">@title</h2>
         </div>
 
         <div class="row">
             <div class="col-8">
                 <div class="form-group row">
                     <div class="col-4">
-                    <label asp-for="Name"></label>
+                        <label asp-for="Product.Name"></label>
                     </div>
                     <div class="col-8">
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                        <input asp-for="Product.Name" class="form-control" />
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
                     </div>
-                </div>   
-                
-                <div class="form-group row">
-                    <div class="col-4">
-                    <label asp-for="Price"></label>
-                    </div>
-                    <div class="col-8">
-                    <input asp-for="Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                </div>   
-                
-                <div class="form-group row">
-                    <div class="col-4">
-                    <label asp-for="Description"></label>
-                    </div>
-                    <div class="col-8">
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>  
+                </div>
 
                 <div class="form-group row">
                     <div class="col-4">
-                    <label asp-for="CategoryId"></label>
+                        <label asp-for="Product.Price"></label>
                     </div>
                     <div class="col-8">
-                        <select asp-for="CategoryId" asp-items="@ViewBag.CategoryDropDown" class="form-control">
+                        <input asp-for="Product.Price" class="form-control" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Product.Description"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Product.Description" class="form-control" />
+                        <span asp-validation-for="Product.Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Product.CategoryId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-control">
                             <option disabled selected>--Select Category--</option>
                         </select>
 
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                     </div>
-                </div>  
+                </div>
 
                 <div class="form-group row">
                     <div class="col-4">
-                    Image
+                        Image
                     </div>
                     <div class="col-8">
-                    <input type="file" name="files" id="uploadBox" multiple  class="form-control" />
-                    
+                        <input type="file" name="files" id="uploadBox" multiple class="form-control" />
                     </div>
-                </div>  
+                </div>
 
-            <div class="form-group row">
-                <div class="col-8 offset-4 row">
-                     
-                    <div class="col">
-                            @if(Model.Id != 0)
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+
+                        <div class="col">
+                            @if (Model.Product.Id != 0)
                             {
-                                //Update
-                                 <input type="submit" class="btn-info btn w-100" value="Update" name="Update" />
-                                 
+                //Update
+                                <input type="submit" class="btn-info btn w-100" value="Update" name="Update" />
+
                             }
                             else
                             {
-                                //Create
-                                <input type="submit" onclick="return validateinput()" class="btn-primary btn w-100" value="Update" name="Create" />
+                //Create
+                                <input type="submit" onclick="return validateInput()" class="btn-primary btn w-100" value="Update" name="Create" />
                             }
 
-                       
-                     </div>
-                
-                    <div class="col">
-                        <a class="btn-success btn w-100"  asp-action="Index">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        </a>                
-                    </div> 
+
+                        </div>
+
+                        <div class="col">
+                            <a class="btn-success btn w-100" asp-action="Index">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-        </div>
-        <div class="col-4">
-            @*empty*@
+                <div class="col-4">
+                    @*empty*@
+                </div>
+            </div>
         </div>
     </div>
-  </div>
-</div>
 </form>
 
 @section Scripts {
     @{
-        <partial name="_ValidationScriptsPartial" /> //Валидация на стороне клиента
+    <partial name="_ValidationScriptsPartial" />
+ //Валидация на стороне клиента
     }
+
+<script>
+            function validateInput(){
+                console.log("функция");
+                if(document.getElementById("uploadBox").value == ""){
+                    Swal.fire(
+                        'Error!',
+                        'Please upload an image!',
+                        'error'
+                    )
+                    return false;
+                }
+                return true;
+            }
+</script>
 }
