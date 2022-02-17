@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rocky.Data;
 using Rocky.Models;
 using Rocky.Models.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +15,12 @@ namespace Rocky.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;   
 
-        public ProductController(AppDbContext db)
+        public ProductController(AppDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;   
         }
 
         public IActionResult Index()
@@ -59,7 +64,7 @@ namespace Rocky.Controllers
                     Text = i.Name,
                     Value = i.Id.ToString()
                 })
-        };
+            };
 
             if (id == null)
             {
@@ -74,6 +79,43 @@ namespace Rocky.Controllers
                 }
                 return View(productVM.Product);
             }
+        }
+
+        //Post - Upsert
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(ProductVM productVM)
+        {
+            if (ModelState.IsValid) // валидация на стороне сервера
+            {
+                var files = HttpContext.Request.Form.Files;
+                string webRootPath = _webHostEnvironment.WebRootPath;
+
+                if (productVM.Product.Id == 0)
+                {
+                    //Creating
+                    string upload = webRootPath + WC.ImagePath;
+                    string fileName = Guid.NewGuid().ToString();
+                    string extension = Path.GetExtension(files[0].FileName);
+
+                    using (var fileStream = new FileStream(Path.Combine(upload, fileName+extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+
+                    productVM.Product.Image = fileName + extension;
+                    _db.Product.Add(productVM.Product);
+
+
+                }
+                else
+                {
+                    //updating
+                }
+                _db.SaveChanges();  
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         //delete
