@@ -112,10 +112,10 @@ namespace Rocky.Controllers
                 {
                     //updating
                 }
-                _db.SaveChanges();  
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(productVM);
         }
 
         //delete
