@@ -31,6 +31,7 @@ namespace Rocky.Controllers
             foreach (var product in products)
             {
                   product.Category = _db.Category.FirstOrDefault(u => u.Id == product.CategoryId);
+                  product.ApplicationType = _db.ApplicationType.FirstOrDefault(u => u.Id == product.ApplicationTypeId);
             };
             
             return View(products);
@@ -53,7 +54,13 @@ namespace Rocky.Controllers
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
-                })
+                }),
+                
+                ApplicationTypeSelectList = _db.ApplicationType.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
             };
 
             if (id == null)
@@ -133,6 +140,16 @@ namespace Rocky.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+            productVM.ApplicationTypeSelectList = _db.ApplicationType.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
             return View(productVM);
         }
 
@@ -145,11 +162,12 @@ namespace Rocky.Controllers
             {
                 return NotFound();
             }
-            var category = _db.Category.Find(id);
-            if (category == null)
+            var product = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).FirstOrDefault(u => u.Id == id);
+            //product.Category = _db.Product.Find(product.Category.Id);
+            if (product == null)
                 return NotFound();
 
-            return View(category);
+            return View(product);
         }
 
         //Post - Delete
@@ -157,14 +175,25 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var category = _db.Category.Find(id);
-            if (category == null)
+            var product = _db.Product.Find(id);
+            if (product == null)
             {
                 return NotFound();
             }
-                _db.Category.Remove(category);
-                _db.SaveChanges();
-                return RedirectToAction("Index");    
+
+            string upload = _webHostEnvironment.WebRootPath + WC.ImagePath;  
+
+            var oldFile = Path.Combine(upload, product.Image);
+
+            if (System.IO.File.Exists(oldFile))
+            {
+                System.IO.File.Delete(oldFile);
+            }
+
+
+            _db.Product.Remove(product);
+            _db.SaveChanges();
+            return RedirectToAction("Index");    
         }
 
 

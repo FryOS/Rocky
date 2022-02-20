@@ -489,3 +489,6 @@ FodyWeavers.xsd
 /Rocky/Migrations/20220209201902_addCategoryToDatabase.Designer.cs
 
 Rocky/wwwroot/images/product/
+
+Rocky/Migrations
+
