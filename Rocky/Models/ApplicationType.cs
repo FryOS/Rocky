@@ -7,10 +7,8 @@ namespace Rocky.Models
     {
         [Key]
         public int Id { get; set; }
-        
-        [DisplayName("Application Type")]
-        [Required(ErrorMessage = "Заполните имя Application")]
+        [Required]
         public string Name { get; set; }
-      
+
     }
 }
