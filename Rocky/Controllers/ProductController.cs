@@ -74,7 +74,7 @@ namespace Rocky.Controllers
                 {
                     return NotFound();
                 }
-                return View(productVM.Product);
+                return View(productVM);
             }
         }
 
