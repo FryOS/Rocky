@@ -39,6 +39,17 @@ namespace Rocky.Controllers
             return View();
         }
 
+        public IActionResult Details(int id)
+        {
+            DetailsVM detailsVM = new DetailsVM()
+            {
+                Product = _db.Product.Include(i => i.Category).Include(i => i.ApplicationType).
+                Where(u => u.Id == id).FirstOrDefault(),
+                ExistsInCart = false
+            };
+            return View(detailsVM); 
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
