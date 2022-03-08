@@ -14,17 +14,16 @@ namespace Rocky.Controllers
 
         public CartController(AppDbContext db)
         {
-            db = _db;
+            _db = db;
         }
 
         public IActionResult Index()
         {
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
-            if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart)!= null
+            if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
                 && HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart).Count() > 0)
             {
-                //сессия существует
-
+                //session существует
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
 
