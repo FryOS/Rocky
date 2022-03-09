@@ -63,11 +63,13 @@ namespace Rocky.Controllers
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
             IEnumerable<Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
 
-            ProductUserVM = new ProductUserVM() {
-                ApplicationUser = _db.ApplicationUsers.FirstOrDefault(u => u.Id == claim.Value)
+            ProductUserVM = new ProductUserVM()
+            {
+                ApplicationUser = _db.ApplicationUsers.FirstOrDefault(u => u.Id == claim.Value),
+                ProductList = prodList
             };
 
-            return View(ProductUserVM);   
+            return View(ProductUserVM);
         }
 
 
@@ -88,3 +90,4 @@ namespace Rocky.Controllers
         }
 
     }
+}
