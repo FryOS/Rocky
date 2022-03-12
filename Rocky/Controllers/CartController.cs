@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Rocky.Data;
 using Rocky.Models;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Rocky.Controllers
 {
@@ -19,13 +21,17 @@ namespace Rocky.Controllers
     {
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment ;
+        private readonly IEmailSender _emailSender ;
+
+
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
 
-        public CartController(AppDbContext db, IWebHostEnvironment webHostEnvironment)
+        public CartController(AppDbContext db, IWebHostEnvironment webHostEnvironment, EmailSender emailSender)
         {
             _db = db;
             _webHostEnvironment = webHostEnvironment;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -80,7 +86,7 @@ namespace Rocky.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
-        public IActionResult SummaryPost(ProductUserVM ProductUserVM)
+        public async Task<IActionResult> SummaryPost(ProductUserVM ProductUserVM)
         {
             var PathToTemplate = _webHostEnvironment.WebRootPath + Path.DirectorySeparatorChar.ToString() +
                 "templates" + Path.DirectorySeparatorChar.ToString() +
@@ -104,8 +110,9 @@ namespace Rocky.Controllers
                 ProductUserVM.ApplicationUser.Email,
                 ProductUserVM.ApplicationUser.PhoneNumber,
                 productListSB.ToString());
-                            
 
+
+            await _emailSender.SendEmailAsync(WC.EmailAdmin, subject, messageBody);
             return RedirectToAction(nameof(InquiryConfirmation));
         }
 

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Rocky.Data;
 using Rocky.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Rocky
 {
@@ -28,14 +24,14 @@ namespace Rocky
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.
-                UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
            
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             
             services.AddHttpContextAccessor();
             services.AddSession(Options => {
