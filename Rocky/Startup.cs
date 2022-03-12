@@ -31,7 +31,7 @@ namespace Rocky
                 .AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
             
             services.AddHttpContextAccessor();
             services.AddSession(Options => {
